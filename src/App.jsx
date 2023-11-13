@@ -4,6 +4,7 @@ import User from './components/User';
 import L2 from './components/L2';
 import styled from 'styled-components';
 import './index.css';
+import ActionMenu from './components/ActionMenu';
 
 const Background = styled.div`
   width: 100%;
@@ -23,6 +24,12 @@ const Title = styled.span`
   margin-bottom: 50px;
 `;
 
+const MenuAndProcess = styled.div`
+  display: flex;
+  height: 100%;
+  gap: 20px;
+`;
+
 const Process = styled.div`
   display: flex;
   max-width: 1400px;
@@ -37,26 +44,19 @@ const Process = styled.div`
   gap: 200px;
 `;
 
-const Actions = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const EntityAction = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 function App() {
   return (
     <Background>
       <Title>Sequencer Demo</Title>
-      <Process>
-        <User />
-        <Sequencer />
-        <Rollup />
-        <L2 />
-      </Process>
+      <MenuAndProcess>
+        <ActionMenu />
+        <Process>
+          <User />
+          <Sequencer />
+          <Rollup />
+          <L2 />
+        </Process>
+      </MenuAndProcess>
     </Background>
   );
 }
