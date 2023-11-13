@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import PlayPause from './PlayPause';
 
 const Main = styled.div`
   background: #f2f2f2;
@@ -7,7 +8,7 @@ const Main = styled.div`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   padding: 10px;
 `;
 
@@ -22,7 +23,10 @@ const Actions = styled.div`
 const Action = styled.div`
   background: #4661e6;
   border-radius: 3px;
-  padding: 20px 10px;
+  padding: 10px 5px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Text = styled.span`
@@ -34,45 +38,50 @@ const Title = styled.p`
 `;
 
 const ActionMenu = () => {
+  const sendTx = () => {};
   return (
     <Main>
       <Actions>
         <Title>User</Title>
         <Action>
-          <Text>Send tx</Text>
+          <Text>Send tx</Text> <PlayPause onClick={sendTx} isPlaying={false} />{' '}
+        </Action>
+        <Action>
+          <Text>Claim</Text> <PlayPause isPlaying={false} />
         </Action>
       </Actions>
       <Actions>
         <Title>Sequencer</Title>
         <Action>
           <Text>Order tx</Text>
+          <PlayPause isPlaying={false} />
         </Action>
         <Action>
-          <Text>Make a signature</Text>
+          <Text>Sign</Text> <PlayPause isPlaying={false} />
         </Action>
         <Action>
-          <Text>Send to user</Text>
+          <Text>Send to user</Text> <PlayPause isPlaying={false} />
         </Action>
         <Action>
-          <Text>Send hashchain to rollup</Text>
+          <Text>Send hashes to L2</Text> <PlayPause isPlaying={false} />
         </Action>
         <Action>
-          <Text>Send tx list to rollup</Text>
+          <Text>Send tx list to L2</Text> <PlayPause isPlaying={false} />
         </Action>
         <Action>
-          <Text>Store hashchain to L1</Text>
+          <Text>Store hashes to L1</Text> <PlayPause isPlaying={false} />
         </Action>
       </Actions>
       <Actions>
         <Title>Rollup</Title>
         <Action>
-          <Text>Request block</Text>
+          <Text>Request block</Text> <PlayPause isPlaying={false} />
         </Action>
         <Action>
-          <Text>Sign hashchain</Text>
+          <Text>Sign hashchain</Text> <PlayPause isPlaying={false} />
         </Action>
         <Action>
-          <Text>Send hashchain to sequencer</Text>
+          <Text>Send to sequencer</Text> <PlayPause isPlaying={false} />
         </Action>
       </Actions>
     </Main>

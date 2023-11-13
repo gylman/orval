@@ -21,7 +21,7 @@ const Title = styled.span`
   color: #fff;
   font-weight: bold;
   font-size: 23px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `;
 
 const MenuAndProcess = styled.div`
