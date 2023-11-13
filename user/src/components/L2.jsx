@@ -2,8 +2,8 @@ import React from 'react';
 import Entity from './Entity';
 import { styled } from 'styled-components';
 
-const Rollup = () => {
-  return <Entity>Rollup</Entity>;
+const L2 = () => {
+  return <Entity>L2</Entity>;
 };
 
-export default Rollup;
+export default L2;

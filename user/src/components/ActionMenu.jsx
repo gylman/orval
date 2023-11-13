@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components';
 import PlayPause from './PlayPause';
+import axios from 'axios';
 
 const Main = styled.div`
   background: #f2f2f2;
@@ -23,7 +24,7 @@ const Actions = styled.div`
 const Action = styled.div`
   background: #4661e6;
   border-radius: 3px;
-  padding: 10px 5px;
+  padding: 5px;
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -73,7 +74,7 @@ const ActionMenu = () => {
         </Action>
       </Actions>
       <Actions>
-        <Title>Rollup</Title>
+        <Title>L2</Title>
         <Action>
           <Text>Request block</Text> <PlayPause isPlaying={false} />
         </Action>
