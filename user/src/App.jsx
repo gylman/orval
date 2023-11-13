@@ -36,12 +36,11 @@ const Process = styled.div`
   padding: 10px;
   width: 100%;
   align-items: start;
-  justify-content: center;
+  justify-content: space-between;
   background: #f2f2f2;
-  width: 1400px;
   border-radius: 10px;
   height: 100%;
-  gap: 200px;
+  gap: 150px;
 `;
 
 function App() {

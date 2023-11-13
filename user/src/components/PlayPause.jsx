@@ -4,6 +4,8 @@ import { styled } from 'styled-components';
 const IconWrapper = styled.div`
   color: #fff;
   width: 24px;
+  height: auto;
+  align-items: center;
   &:hover {
     cursor: pointer;
   }
@@ -11,7 +13,7 @@ const IconWrapper = styled.div`
 
 const PlayPause = ({ isPlaying, onClick }) => {
   return isPlaying ? (
-    <IconWrapper>
+    <IconWrapper onClick={onClick}>
       <svg
         xmlns='http://www.w3.org/2000/svg'
         fill='none'
@@ -30,6 +32,7 @@ const PlayPause = ({ isPlaying, onClick }) => {
   ) : (
     <IconWrapper>
       <svg
+        onClick={onClick}
         xmlns='http://www.w3.org/2000/svg'
         fill='none'
         viewBox='0 0 24 24'

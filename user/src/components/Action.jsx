@@ -10,16 +10,18 @@ const Main = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
+  min-width: 200px;
 `;
 
 const Text = styled.span`
   color: #fff;
 `;
-const Action = ({ children, onClick, isRunning }) => {
+
+const Action = ({ children, handleAction, isRunning }) => {
   return (
     <Main>
-      <Text>{children}</Text>{' '}
-      <PlayPause onClick={onClick} isPlaying={isRunning} />
+      <Text>{children}</Text>
+      <PlayPause onClick={handleAction} isPlaying={isRunning} />
     </Main>
   );
 };
