@@ -11,16 +11,12 @@ app.use(express.json());
 const encTxBlock = [];
 const encTxHashes = [];
 
-const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
-  modulusLength: 2048, // Length of your key in bits
-});
-
 dotenv.config();
 
-const privateKeyPem = privateKey.export({ type: 'pkcs8', format: 'pem' });
-const publicKeyPem = publicKey.export({ type: 'spki', format: 'pem' });
-
-console.log(privateKeyPem, publicKeyPem);
+const [publicKey, privateKey] = [
+  process.env.PRIVATE_KEY,
+  process.env.PUBLIC_KEY,
+];
 
 function signData(data, privateKey) {
   const sign = crypto.createSign('SHA256');
