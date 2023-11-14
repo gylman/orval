@@ -42,6 +42,8 @@ const mockTx = {
   s: '0x42842...', // part of the signature
 };
 
+function solveTLP() {}
+
 async function verifySignature(data, signature, publicKeyPem) {
   // Convert the PEM-encoded public key to a CryptoKey object
   const publicKey = await window.crypto.subtle.importKey(
