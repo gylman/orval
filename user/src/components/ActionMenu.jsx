@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import axios from 'axios';
 import Action from './Action';
+import crypto from 'crypto';
+const sequencerPublicKey = import.meta.env.VITE_SEQUENCER_PUBLIC_KEY;
 
 const Main = styled.div`
   background: #f2f2f2;
@@ -40,6 +42,51 @@ const mockTx = {
   s: '0x42842...', // part of the signature
 };
 
+async function verifySignature(data, signature, publicKeyPem) {
+  // Convert the PEM-encoded public key to a CryptoKey object
+  const publicKey = await window.crypto.subtle.importKey(
+    'spki',
+    pemToBuffer(publicKeyPem),
+    {
+      name: 'RSASSA-PKCS1-v1_5',
+      hash: { name: 'SHA-256' },
+    },
+    false,
+    ['verify']
+  );
+
+  // Convert data and signature to ArrayBuffer
+  const encoder = new TextEncoder();
+  const dataBuffer = encoder.encode(data);
+  const signatureBuffer = Uint8Array.from(atob(signature), (c) =>
+    c.charCodeAt(0)
+  );
+
+  // Verify the signature
+  const isValid = await window.crypto.subtle.verify(
+    'RSASSA-PKCS1-v1_5',
+    publicKey,
+    signatureBuffer,
+    dataBuffer
+  );
+
+  return isValid;
+}
+
+// Helper function to convert PEM to ArrayBuffer
+function pemToBuffer(pem) {
+  const base64String = pem.replace(
+    /-----BEGIN PUBLIC KEY-----|-----END PUBLIC KEY-----|[\n\r]/g,
+    ''
+  );
+  const binaryString = atob(base64String);
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
 const ActionMenu = () => {
   const [tx, setTx] = useState(mockTx);
   const [isSendEncTxRunning, setIsSendEncTxRunning] = useState(false);
@@ -48,18 +95,25 @@ const ActionMenu = () => {
     return tx;
   };
 
-  const sendEncTx = () => {
+  const sendEncTx = async () => {
+    // Make the function async
     setIsSendEncTxRunning((prevState) => !prevState && true);
     const encTx = encryptTx(tx);
     console.log(encTx);
-    axios
-      .post('http://localhost:3333/order', encTx)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+    try {
+      const response = await axios.post('http://localhost:3333/order', encTx);
+      console.log(response);
+      const isValid = await verifySignature(
+        response.data.data.encTxHash,
+        response.data.data.signature,
+        sequencerPublicKey
+      );
+      console.log('Is signature valid?', isValid);
+    } catch (error) {
+      console.log(error);
+    }
+
     setTx((prevTx) => ({
       ...prevTx,
       nonce: `0x${parseInt(parseInt(prevTx.nonce) + 1).toString(16)}`,
