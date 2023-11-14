@@ -13,7 +13,7 @@ const encTxHashes = [];
 
 dotenv.config();
 
-const [publicKey, privateKey] = [
+const [privateKey, publicKey] = [
   process.env.PRIVATE_KEY,
   process.env.PUBLIC_KEY,
 ];
@@ -29,20 +29,21 @@ function hashSHA256(str) {
   return crypto.createHash('sha256').update(str).digest('hex');
 }
 
-app.post('/order', (req, res) => {
+function consumeTx(req, res) {
   const encTx = JSON.stringify(req.body);
   console.log('Sequencer received a transaction: ', encTx);
   encTxBlock.push(encTx);
   const encTxHash = hashSHA256(encTx);
   encTxHashes.push(encTxHash);
-  const txOrder = encTxHashes.length - 1;
-  const signature = signData(encTxHash);
-
+  const order = encTxHashes.length - 1;
+  const signature = signData(encTxHash, privateKey);
   res.status(200).json({
     status: 'success',
-    data: { encTxHash: encTxHash, order: txOrder },
+    data: { encTxHash, order, signature },
   });
-});
+}
+
+app.post('/order', consumeTx);
 
 app.post('/block', (req, res) => {
   res.status(200).json({ message: 'Hello', world: 'Bye' });
